@@ -1,32 +1,36 @@
 from turtle import Screen
 from paddle import Paddle
-import time
+from ball import Ball
 
 screen = Screen()
-screen.setup(width=800, height=600)
+screen.setup(width=800, height=600, startx=-600, starty=50)
 screen.bgcolor("black")
 screen.title("Pong")
-screen.tracer(0)
 
 screen.listen()
 
-paddles = {
-    "paddle_1": {"position": (350, 0), "up_key": "Up", "down_key": "Down"},
-    "paddle_2": {"position": (-350, 0), "up_key": "w", "down_key": "s"},
-}
+l_paddle = Paddle(-380, 0)
+screen.onkey(l_paddle.go_up, "w")
+screen.onkey(l_paddle.go_down, "s")
 
-for paddle_name, paddle_info in paddles.items():
-    paddle = Paddle(*paddle_info["position"])
-    paddle.up_key = paddle_info["up_key"]
-    paddle.down_key = paddle_info["down_key"]
-    screen.onkey(paddle.go_up, paddle.up_key)
-    screen.onkey(paddle.go_down, paddle.down_key)
-    locals()[paddle_name] = paddle
+r_paddle = Paddle(380, 0)
+screen.onkey(r_paddle.go_up, "Up")
+screen.onkey(r_paddle.go_down, "Down")
 
 game_on = True
 
+ball = Ball()
+
 while game_on:
-    screen.update()
+    if ball.xcor() > 380 or ball.xcor() < -380:
+        game_on = False
+    ball.move()
+    
+    # Check if ball hit the paddle
+    if ball.distance(r_paddle) <= 50 and ball.xcor() > 340:
+        ball.reverse_x("Left")
+    elif ball.distance(l_paddle) <= 50 and ball.xcor() < -340:
+        ball.reverse_x("Right")
 
 
 screen.exitonclick()

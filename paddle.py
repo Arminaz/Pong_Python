@@ -16,10 +16,10 @@ class Paddle(Turtle):
 
 
     def go_up(self):
-        if self.ycor() < 180:
+        if self.ycor() < 230:
             self.sety(self.ycor()+20)
 
 
     def go_down(self):
-        if self.ycor() > -180:
+        if self.ycor() > -230:
             self.sety(self.ycor()-20)
