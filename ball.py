@@ -11,13 +11,21 @@ class Ball(Turtle):
         self.shape("circle")
         self.shapesize(STARTING_WIDTH, STARTING_LEN)
         self.color("white")
-        self.speed("slowest")
         self.goto(0, 0)
         self.y_direction = "Up"
         self.x_direction = "Right"
+        self.move_speed = 0.1
 
     def reverse_x(self, direction):
         self.x_direction = direction
+        self.move_speed *= 0.9
+
+
+    def reset_position(self):
+        self.goto(0, 0)
+        self.move_speed = 0.1
+        self.y_direction = "Up"
+        self.x_direction = "Right"
 
 
     def move(self):
